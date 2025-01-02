@@ -21,5 +21,12 @@
         src: /root/app-1.0.0.tgz
         dest: /root/
         remote_src: yes
+    - name: Install dependencies
+      npm:
+        path: /root/package
+    - name: Start the application
+      command: 
+        chdir: /root/package/app
+        cmd: node server
 
 
