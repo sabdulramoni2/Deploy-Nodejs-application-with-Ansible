@@ -9,6 +9,8 @@
         pkg: 
           - nodejs
           - npm
+
+
 - name: Create new linux user for node app
   # replace with your host IP address
   hosts: 157.230.5.162
@@ -20,6 +22,8 @@
         comment: ashiwaju admin
         group: admin
 
+
+
 - name: Deploy nodejs app
   hosts: 157.230.5.162
   become: True
@@ -27,11 +31,12 @@
   tasks: 
     - name: Copy nodejs folder to a server
       copy:
-        src: /root/nodejs-app-1.0.0.tgz
-        dest: /root/app-1.0.0.tgz
+        src: /root/nodejs-app/nodejs-app-1.0.0.tgz
+        dest: /home/ashiwaju/app-1.0.0.tgz
+        remote_src: yes
     - name: Unpack the nodejs file
       unarchive:
-        src: /root/app-1.0.0.tgz
+        src: /home/ashiwaju/app-1.0.0.tgz
         dest: /home/ashiwaju
         remote_src: yes
     - name: Install dependencies
@@ -41,8 +46,8 @@
       command: 
         chdir: /home/ashiwaju/package/app
         cmd: node server
-        async: 1000
-        poll: 0
+      async: 1000
+      poll: 0
     - name: Ensure app is running
       shell: ps aux | grep node
       register: app_status
